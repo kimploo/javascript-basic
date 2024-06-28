@@ -14,8 +14,7 @@ describe("변수 TODO", () => {
 
     expect(loadModule).not.toThrow();
   });
-  //  * - MAX_NUM은 JavaScript에서 표현 가능한 최대 정수 값을 유지합니다.
-  //  * - 새로운 변수 affirmation를 만들고, 문자열 '프론트엔드 개발자 되기'을 할당합니다.
+
   test("num에 42를 할당합니다.", async () => {
     const { num } = await import(VARIABLE_FILE_PATH);
     expect(num).toBe(42);

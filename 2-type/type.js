@@ -30,6 +30,33 @@ const developer = "개발자";
 let frontEndDeveloper;
 let backendDeveloper;
 
-// TODO: slice
+// TODO: 문자열 메서드 slice()를 사용하여 아래 변수를 완성하세요.
+const str = "The quick brown fox jumps over the lazy dog.";
+// "the lazy dog"를 slice하여 할당하세요.
+let theLazyDog;
 
-export { num, numToFixed, numPower, numSqrt };
+// "The quick brown fox"를 slice하여 할당하세요.
+let theQuickBrownFox;
+
+// "jumps"를 slice하여 할당하세요.
+let jumps;
+
+// 테스트를 위한 코드로, 수정하지 않습니다.
+export {
+  num,
+  numToFixed,
+  numPower,
+  numSqrt,
+  greeting,
+  school,
+  schoolToLowerCase,
+  frontEnd,
+  backEnd,
+  developer,
+  frontEndDeveloper,
+  backendDeveloper,
+  str,
+  theLazyDog,
+  theQuickBrownFox,
+  jumps,
+};
