@@ -39,7 +39,7 @@ export function sum(a, b) {
  */
 export function subtract(a, b) {
   // TODO: 위 jsdoc 설명에 맞게 함수를 완성하세요.
-  return a * b;
+  return a - b;
 }
 
 /**
