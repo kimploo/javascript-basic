@@ -31,5 +31,8 @@ let frontEndDeveloper;
 let backendDeveloper;
 
 // TODO: slice
+// TODO: getLengthOfWord
+// TODO: takeLetters: 수(num)와 문자열을 입력받아 차례대로 num개의 문자로 구성된 문자열을 리턴해야 합니다.
+// TODO: dropLetters: 수(num)와 문자열을 입력받아 차례대로 num개의 문자가 제거된 문자열을 리턴해야 합니다.
 
 export { num, numToFixed, numPower, numSqrt };
