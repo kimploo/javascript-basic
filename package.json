@@ -5,8 +5,13 @@
   "main": "index.js",
   "scripts": {
     "test:ui": "vitest --ui",
-    "test": "vitest run",
-    "test:reference": "NODE_ENV=reference vitest run"
+    "test:all": "vitest run",
+    "test:reference": "NODE_ENV=reference vitest run",
+    "test:1": "vitest run --dir 1-variable",
+    "test:2": "vitest run --dir 2-type",
+    "test:3": "vitest run --dir 3-function",
+    "test:4": "vitest run --dir 4-conditional",
+    "test:5": "vitest run --dir 5-loop"
   },
   "keywords": [],
   "author": "",
