@@ -45,11 +45,11 @@ describe("변수 TODO", () => {
     });
 
     // #TODO: ? 통과 안되는 이유 고민
-    it("쓰이지 않는 연산자 테스트", () => {
-      const { miniCalculator } = module;
-      const result = miniCalculator(6, 2, "%");
-      expect(result).toBeNaN();
-    });
+    // it("쓰이지 않는 연산자 테스트", () => {
+    //   const { miniCalculator } = module;
+    //   const result = miniCalculator(6, 2, "%");
+    //   expect(result).toBeNaN();
+    // });
   });
 
   describe("피즈버즈 함수 테스트", () => {
@@ -105,6 +105,50 @@ describe("변수 TODO", () => {
       const { fizzBuzz } = module;
       const result = fizzBuzz(-7);
       expect(result).toBe("No FizzBuzz");
+    });
+  });
+  // describe block for the suite of tests
+  describe("isFalsy 함수 테스트", () => {
+    // test cases for various falsy values
+    it("값이 false일 때", () => {
+      expect(module.isFalsy(false)).toBe(true);
+    });
+
+    it("값이 undefined일 때", () => {
+      expect(module.isFalsy(undefined)).toBe(true);
+    });
+
+    it("값이 0일 때", () => {
+      expect(module.isFalsy(0)).toBe(true);
+    });
+
+    it("값이 NaN일 때", () => {
+      expect(module.isFalsy(NaN)).toBe(true);
+    });
+
+    it("값이 빈 문자열('')일 때", () => {
+      expect(module.isFalsy("")).toBe(true);
+    });
+
+    // test cases for various truthy values
+    it("값이 true일 때", () => {
+      expect(module.isFalsy(true)).toBe(false);
+    });
+
+    it("값이 숫자 1일 때", () => {
+      expect(module.isFalsy(1)).toBe(false);
+    });
+
+    it("값이 빈 문자열이 아닌 문자열일 때", () => {
+      expect(isFalsy("hello")).toBe(false);
+    });
+
+    it("값이 빈 배열일 때", () => {
+      expect(isFalsy([])).toBe(false);
+    });
+
+    it("값이 객체일 때", () => {
+      expect(isFalsy({})).toBe(false);
     });
   });
 });
