@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 const FILE_PATH =
   process.env.NODE_ENV === "reference" ? "./loop.reference.js" : "./loop.js";
 
-describe("변수 TODO", () => {
+describe("반복문 TODO", () => {
   let module;
 
   beforeAll(async () => {
