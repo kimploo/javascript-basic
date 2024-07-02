@@ -140,15 +140,15 @@ describe("변수 TODO", () => {
     });
 
     it("값이 빈 문자열이 아닌 문자열일 때", () => {
-      expect(isFalsy("hello")).toBe(false);
+      expect(module.isFalsy("hello")).toBe(false);
     });
 
     it("값이 빈 배열일 때", () => {
-      expect(isFalsy([])).toBe(false);
+      expect(module.isFalsy([])).toBe(false);
     });
 
     it("값이 객체일 때", () => {
-      expect(isFalsy({})).toBe(false);
+      expect(module.isFalsy({})).toBe(false);
     });
   });
 });
