@@ -107,9 +107,8 @@ describe("변수 TODO", () => {
       expect(result).toBe("No FizzBuzz");
     });
   });
-  // describe block for the suite of tests
+
   describe("isFalsy 함수 테스트", () => {
-    // test cases for various falsy values
     it("값이 false일 때", () => {
       expect(module.isFalsy(false)).toBe(true);
     });

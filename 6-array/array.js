@@ -1,3 +1,5 @@
+import { readFileSync } from "fs";
+
 /**
  * 주어진 값의 정확한 타입을 반환합니다.
  *
