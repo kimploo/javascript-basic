@@ -12,7 +12,9 @@
     "test:3": "vitest run --dir 3-function",
     "test:4": "vitest run --dir 4-conditional",
     "test:5": "vitest run --dir 5-loop",
-    "test:6": "vitest run --dir 6-array"
+    "test:6": "vitest run --dir 6-array",
+    "test:7": "vitest run --dir 7-object",
+    "test:8": "vitest run --dir 8-object-array"
   },
   "keywords": [],
   "author": "",

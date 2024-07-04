@@ -1,146 +1,141 @@
 import { beforeAll } from "vitest";
 import { describe, expect, it } from "vitest";
+import { readFileSync } from "fs";
+import { resolve } from "path";
 
 const FILE_PATH =
-  process.env.NODE_ENV === "reference" ? "./array.reference.js" : "./array.js";
+  process.env.NODE_ENV === "reference"
+    ? "./object-array.reference.js"
+    : "./object-array.js";
 
-describe("배열 TODO", () => {
+describe("객체 배열 TODO", () => {
   let module;
 
   beforeAll(async () => {
     module = await import(FILE_PATH);
   });
 
-  describe("getCorrectType 함수 테스트", () => {
-    it('배열을 입력했을 때 "array"를 반환해야 합니다', () => {
-      const result = module.getCorrectType([]);
-      expect(result).toBe("array");
+  describe("getAverageAge 함수 테스트", () => {
+    it("단일 행 CSV 문자열에서 평균 나이 계산 테스트", () => {
+      const csvString = `Name,Age,City,Occupation
+  John Doe,30,New York,Engineer`;
+      const result = module.getAverageAge(csvString);
+      expect(result).toBe(30);
     });
 
-    it('null을 입력했을 때 "null"을 반환해야 합니다', () => {
-      const result = module.getCorrectType(null);
-      expect(result).toBe("null");
+    it("다중 행 CSV 문자열에서 평균 나이 계산 테스트", () => {
+      const csvString = readFileSync(
+        resolve(import.meta.dirname, "example.csv"),
+        "utf8",
+      );
+
+      const result = module.getAverageAge(csvString);
+      expect(result).toBeCloseTo(29.2, 1); // 평균은 29.2
     });
 
-    it('숫자를 입력했을 때 "number"를 반환해야 합니다', () => {
-      const result = module.getCorrectType(123);
-      expect(result).toBe("number");
+    it("빈 CSV 문자열에서 평균 나이 계산 테스트", () => {
+      const csvString = "Name,Age,City,Occupation";
+      const result = module.getAverageAge(csvString);
+      expect(result).toBe(0);
     });
 
-    it('문자열을 입력했을 때 "string"을 반환해야 합니다', () => {
-      const result = module.getCorrectType("hello");
-      expect(result).toBe("string");
-    });
+    it("한 행에 빈 값이 있는 CSV 문자열에서 평균 나이 계산 테스트", () => {
+      const csvString = `Name,Age,City,Occupation
+John Doe,30,New York,Engineer
+,,,
+Jane Smith,25,Los Angeles,Designer`;
 
-    it('불리언을 입력했을 때 "boolean"을 반환해야 합니다', () => {
-      const result = module.getCorrectType(true);
-      expect(result).toBe("boolean");
-    });
-
-    it('객체를 입력했을 때 "object"를 반환해야 합니다', () => {
-      const result = module.getCorrectType({});
-      expect(result).toBe("object");
-    });
-
-    it('undefined를 입력했을 때 "undefined"를 반환해야 합니다', () => {
-      const result = module.getCorrectType(undefined);
-      expect(result).toBe("undefined");
-    });
-
-    it('함수를 입력했을 때 "function"을 반환해야 합니다', () => {
-      const result = module.getCorrectType(function () {});
-      expect(result).toBe("function");
+      const result = module.getAverageAge(csvString);
+      expect(result).toBeCloseTo(27.5, 1); // 평균은 27.5
     });
   });
 
-  // 테스트용 빙고 보드
-  const bingoBoardRow = [
-    ["✅", "✅", "✅"],
-    ["❎", "❎", "❎"],
-    ["❎", "❎", "❎"],
-  ];
+  describe("findAliceReturnObject 함수 테스트", () => {
+    it("Alice를 포함하는 이름이 있는 경우 객체 반환 테스트", () => {
+      const csvString = `Name,Age,City,Occupation
+John Doe,30,New York,Engineer
+Jane Smith,25,Los Angeles,Designer
+Alice Johnson,28,Chicago,Developer
+Bob Brown,35,Houston,Teacher`;
 
-  const bingoBoardColumn = [
-    ["✅", "❎", "❎"],
-    ["✅", "❎", "❎"],
-    ["✅", "❎", "❎"],
-  ];
-
-  const bingoBoardDiagonal1 = [
-    ["✅", "❎", "❎"],
-    ["❎", "✅", "❎"],
-    ["❎", "❎", "✅"],
-  ];
-
-  const bingoBoardDiagonal2 = [
-    ["❎", "❎", "✅"],
-    ["❎", "✅", "❎"],
-    ["✅", "❎", "❎"],
-  ];
-
-  const noBingoBoard = [
-    ["✅", "❎", "❎"],
-    ["❎", "✅", "❎"],
-    ["❎", "❎", "❎"],
-  ];
-
-  describe("checkRows 함수 테스트", () => {
-    it("행에 빙고가 있는 경우 true를 반환해야 합니다", () => {
-      const result = module.checkRows(bingoBoardRow);
-      expect(result).toBe(true);
+      const result = module.findAliceReturnObject(csvString);
+      expect(result).toEqual({
+        Name: "Alice Johnson",
+        Age: "28",
+        City: "Chicago",
+        Occupation: "Developer",
+      });
     });
 
-    it("행에 빙고가 없는 경우 false를 반환해야 합니다", () => {
-      const result = module.checkRows(noBingoBoard);
-      expect(result).toBe(false);
-    });
-  });
+    it("Alice를 포함하는 이름이 없는 경우 null 반환 테스트", () => {
+      const csvString = `Name,Age,City,Occupation
+John Doe,30,New York,Engineer
+Jane Smith,25,Los Angeles,Designer`;
 
-  describe("checkColumns 함수 테스트", () => {
-    it("열에 빙고가 있는 경우 true를 반환해야 합니다", () => {
-      const result = module.checkColumns(bingoBoardColumn);
-      expect(result).toBe(true);
+      const result = module.findAliceReturnObject(csvString);
+      expect(result).toBeFalsy();
     });
 
-    it("열에 빙고가 없는 경우 false를 반환해야 합니다", () => {
-      const result = module.checkColumns(noBingoBoard);
-      expect(result).toBe(false);
+    it("여러 Alice가 있는 경우 첫 번째 Alice 반환 테스트", () => {
+      const csvString = `Name,Age,City,Occupation
+Alice Johnson,28,Chicago,Developer
+Alice Brown,35,Houston,Teacher`;
+
+      const result = module.findAliceReturnObject(csvString);
+      expect(result).toEqual({
+        Name: "Alice Johnson",
+        Age: "28",
+        City: "Chicago",
+        Occupation: "Developer",
+      });
+    });
+
+    it("Alice가 다른 단어의 일부로 포함된 경우 객체 반환 테스트", () => {
+      const csvString = `Name,Age,City,Occupation
+Alicia Keys,40,New York,Singer
+Bob Brown,35,Houston,Teacher`;
+
+      const result = module.findAliceReturnObject(csvString);
+      expect(result).toBeFalsy();
     });
   });
 
-  describe("checkDiagonals 함수 테스트", () => {
-    it("대각선에 빙고가 있는 경우 true를 반환해야 합니다", () => {
-      const result1 = module.checkDiagonals(bingoBoardDiagonal1);
-      expect(result1).toBe(true);
+  describe("findTeacherIndices 함수 테스트", () => {
+    it("Teacher 직업을 가진 사람의 인덱스 반환 테스트", () => {
+      const csvString = `Name,Age,City,Occupation
+John Doe,30,New York,Engineer
+Jane Smith,25,Los Angeles,Designer
+Alice Johnson,28,Chicago,Developer
+Bob Brown,35,Houston,Teacher
+Charlie Davis,22,Philadelphia,Intern
+Diana Green,32,Phoenix,Consultant
+Edward White,29,San Antonio,Analyst
+Fiona Black,27,Dallas,Teacher
+George Clark,33,San Diego,Architect
+Helen Martinez,31,San Jose,Doctor`;
 
-      const result2 = module.checkDiagonals(bingoBoardDiagonal2);
-      expect(result2).toBe(true);
+      const result = module.findTeacherIndices(csvString);
+      expect(result).toEqual([3, 7]);
     });
 
-    it("대각선에 빙고가 없는 경우 false를 반환해야 합니다", () => {
-      const result = module.checkDiagonals(noBingoBoard);
-      expect(result).toBe(false);
-    });
-  });
+    it("Teacher 직업을 가진 사람이 없는 경우 빈 배열 반환 테스트", () => {
+      const csvString = `Name,Age,City,Occupation
+John Doe,30,New York,Engineer
+Jane Smith,25,Los Angeles,Designer
+Alice Johnson,28,Chicago,Developer`;
 
-  describe("bingo 함수 테스트", () => {
-    it("빙고가 있는 경우 true를 반환해야 합니다", () => {
-      const resultRow = module.bingo(bingoBoardRow);
-      expect(resultRow).toBe(true);
-
-      const resultColumn = module.bingo(bingoBoardColumn);
-      expect(resultColumn).toBe(true);
-
-      const resultDiagonal1 = module.bingo(bingoBoardDiagonal1);
-      expect(resultDiagonal1).toBe(true);
-
-      const resultDiagonal2 = module.bingo(bingoBoardDiagonal2);
-      expect(resultDiagonal2).toBe(true);
+      const result = module.findTeacherIndices(csvString);
+      expect(result).toEqual([]);
     });
 
-    it("빙고가 없는 경우 false를 반환해야 합니다", () => {
-      const result = module.bingo(noBingoBoard);
-      expect(result).toBe(false);
+    it("Teacher 직업을 가진 사람이 한 명 있는 경우 인덱스 반환 테스트", () => {
+      const csvString = `Name,Age,City,Occupation
+John Doe,30,New York,Engineer
+Jane Smith,25,Los Angeles,Designer
+Bob Brown,35,Houston,Teacher`;
+
+      const result = module.findTeacherIndices(csvString);
+      expect(result).toEqual([2]);
     });
   });
 });
