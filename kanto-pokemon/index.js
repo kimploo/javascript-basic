@@ -1,4 +1,16 @@
 console.log("You have connected...");
+function fetchKantoPokemon() {
+  fetch("https://pokeapi.co/api/v2/pokemon?limit=151")
+    .then((response) => response.json())
+    .then(function (allpokemon) {
+      console.log(allpokemon.results);
+      // 순서대로 보여주려면 어떻게 할까?
+      allpokemon.results.forEach(function (pokemon) {
+        fetchPokemonData(pokemon);
+      });
+    });
+}
+fetchKantoPokemon();
 
 document.addEventListener("DOMContentLoaded", () => {
   let generateBtn = document.querySelector("#generate-pokemon");
@@ -20,17 +32,17 @@ function getDeleteBtn() {
   return document.querySelector("#delete-btn");
 }
 
-function fetchKantoPokemon() {
-  fetch("https://pokeapi.co/api/v2/pokemon?limit=151")
-    .then((response) => response.json())
-    .then(function (allpokemon) {
-      console.log(allpokemon.results);
-      // 순서대로 보여주려면 어떻게 할까?
-      allpokemon.results.forEach(function (pokemon) {
-        fetchPokemonData(pokemon);
-      });
-    });
-}
+// function fetchKantoPokemon() {
+//   fetch("https://pokeapi.co/api/v2/pokemon?limit=151")
+//     .then((response) => response.json())
+//     .then(function (allpokemon) {
+//       console.log(allpokemon.results);
+//       // 순서대로 보여주려면 어떻게 할까?
+//       allpokemon.results.forEach(function (pokemon) {
+//         fetchPokemonData(pokemon);
+//       });
+//     });
+// }
 
 function fetchKantoPokemonSorted() {
   fetch("https://pokeapi.co/api/v2/pokemon?limit=151")
