@@ -21,6 +21,7 @@ function createMsg(text, container) {
 
   msg.append(textSpan, buttonContainer);
   msg.addEventListener("click", (event) => {
+    // console.log(event);
     if (
       event.target.classList.contains("delete") &&
       event.target.tagName === "BUTTON"
