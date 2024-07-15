@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      servor:
+        specifier: ^4.0.2
+        version: 4.0.2
       vitest:
         specifier: ^1.6.0
         version: 1.6.0(@vitest/ui@1.6.0)
@@ -874,6 +877,10 @@ packages:
   semver@7.6.2:
     resolution: {integrity: sha512-FNAIBWCx9qcRhoHcgcJ0gvU7SN1lYU2ZXuSfl04bSC5OpvDHFyJCjdNHomPXxjQlCBU67YW64PzY7/VIEH7F2w==}
     engines: {node: '>=10'}
+    hasBin: true
+
+  servor@4.0.2:
+    resolution: {integrity: sha512-MlmQ5Ntv4jDYUN060x/KEmN7emvIqKMZ9OkM+nY8Bf2+KkyLmGsTqWLyAN2cZr5oESAcH00UanUyyrlS1LRjFw==}
     hasBin: true
 
   shebang-command@2.0.0:
@@ -1839,6 +1846,8 @@ snapshots:
       queue-microtask: 1.2.3
 
   semver@7.6.2: {}
+
+  servor@4.0.2: {}
 
   shebang-command@2.0.0:
     dependencies:
