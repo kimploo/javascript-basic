@@ -15,7 +15,8 @@
     "test:6": "vitest run --dir 6-array",
     "test:7": "vitest run --dir 7-object",
     "test:8": "vitest run --dir 8-object-array",
-    "dog-start": "servor ./dog --browse"
+    "dog-start": "servor ./dog --browse",
+    "dom-start": "servor ./10-dom --browse"
   },
   "keywords": [],
   "author": "",
