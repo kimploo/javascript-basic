@@ -1,112 +1,104 @@
-/**
- * 숫자 계산을 위한 값 모음입니다.
- * @property {string} left 계산을 위한 숫자 중 첫 번째 숫자입니다.
- * @property {string} operator 어떤 계산을 할지 정하는 연산자입니다.
- * @property {string} right 계산을 위한 숫자 중 두 번째 숫자입니다.
- * @example
- * 2 + 5 = 7
- * {
- *  left: "2",
- *  operator: "+",
- *  right: "5"
- * }
- */
-const values = {
+const state = {
   left: "0",
-  operator: "",
-  right: "",
+  operator: null,
+  right: null,
+  mode: "start",
+  reset() {
+    state.left = "0";
+    state.operator = null;
+    state.right = null;
+    state.mode = "start";
+  },
+  equal(res) {
+    state.left = res;
+    state.right = null;
+    state.operator = null;
+    state.mode = "start";
+  },
+  calculate() {
+    if (state.left === null || state.right === null) throw "";
+    const l = Number(state.left);
+    const r = Number(state.right);
+    const { operator } = state;
+
+    if (operator === "+") return String(l + r);
+    if (operator === "-") return String(l - r);
+    if (operator === "*") return String(l * r);
+    if (operator === "/") return String(l / r);
+    if (r === 0) return "0";
+    throw "";
+  },
 };
 
-const resetValue = () => {
-  values.left = "0";
-  values.operator = "";
-  values.right = "";
+const ui = {
+  display: document.querySelector(".display"),
+  pushBtn(btn) {
+    btn.classList.add("pushed");
+  },
+  releaseBtns() {
+    const pushed = document.querySelectorAll("button.pushed");
+    if (pushed) pushed.forEach((btn) => btn.classList.remove("pushed"));
+  },
 };
-
-const getState = (values) => {
-  const { left, operator, right, result } = values;
-  if (!left || left === "0") return "start";
-  if (left && !operator) return "left";
-  if (left && operator) return "right";
-  if (left && operator && right && result) return "end";
-};
-
-const display = document.querySelector(".display");
-
-const releaseBtns = () => {
-  const pushed = document.querySelectorAll("button.pushed");
-  if (pushed) pushed.forEach((btn) => btn.classList.remove("pushed"));
-};
-
-const calculate = () => {
-  // values.right = display.textContent;
-  const left = Number(values.left);
-  const right = Number(values.right);
-  if (!left || !right) throw "";
-  const { operator } = values;
-
-  if (operator === "+") return String(left + right);
-  if (operator === "-") return String(left - right);
-  if (operator === "*") return String(left * right);
-  if (operator === "/") return String(left / right);
-  if (right === 0) return "0";
-  throw "";
-};
+const display = ui.display;
 
 const numberHandler = (btn) => {
-  if (display.textContent === "0") {
-    display.textContent = btn.textContent;
-    values.left = btn.textContent;
-  } else if (getState(values) === "right" && !values.right) {
-    display.textContent = btn.textContent;
-    values.right += btn.textContent;
-  } else if (getState(values) === "right" && values.right) {
-    display.textContent += btn.textContent;
-    values.right += btn.textContent;
+  const num = btn.textContent;
+  if (state.mode === "start") {
+    display.textContent = num;
+    state.left = num;
+    state.mode = "left";
+  } else if (state.mode === "right") {
+    if (state.right === null) {
+      display.textContent = num;
+      state.right = num;
+    } else {
+      display.textContent += num;
+      state.right += num;
+    }
   } else {
-    display.textContent += btn.textContent;
-    values.left += btn.textContent;
+    display.textContent += num;
+    state.left += num;
   }
 };
 
 const functionHandler = (btn) => {
   const f = btn.textContent;
   if (f === "C") {
-    resetValue();
-    releaseBtns();
+    state.reset();
+    ui.releaseBtns();
     display.textContent = "0";
   }
   if (f === "±") {
     if (display.textContent[0] === "-") {
       const res = display.textContent.slice(1);
-      if (getState(values) === "right" && values.right) {
-        values.right = res;
+      if (state.mode === "right" && state.right) {
+        state.right = res;
       } else {
-        values.left = res;
+        state.left = res;
       }
       display.textContent = res;
     } else {
-      if (getState(values) === "right" && values.right) {
-        values.right = "-" + display.textContent;
+      if (state.mode === "right" && state.right) {
+        state.right = "-" + display.textContent;
       } else {
-        values.left = "-" + display.textContent;
+        state.left = "-" + display.textContent;
       }
       display.textContent = "-" + display.textContent;
     }
   }
   if (f === "%") {
     const res = String(Number(display.textContent) / 100);
-    if (getState(values) === "right" && values.right) {
-      values.right = res;
+    if (state.mode === "right" && state.right) {
+      state.right = res;
     } else {
-      values.left = res;
+      state.left = res;
     }
     display.textContent = res;
   }
-  return;
 };
 
-const decimalHandler = (btn) => {
+const decimalHandler = () => {
   if (display.textContent.indexOf(".") !== -1) return;
   if (display.textContent.slice(-1) !== ".") {
     if (display.textContent === "0") {
@@ -118,33 +110,33 @@ const decimalHandler = (btn) => {
 };
 
 const operatorHandler = (btn) => {
-  releaseBtns();
-  btn.classList.add("pushed");
-  if (!values.operator) {
-    values.left = display.textContent;
-    values.operator = btn.textContent;
-  } else if (values.right) {
-    const res = calculate();
+  ui.releaseBtns();
+  ui.pushBtn(btn);
+  if (!state.operator) {
+    state.left = display.textContent;
+    state.operator = btn.textContent;
+    state.mode = "right";
+  } else if (state.right) {
+    const res = state.calculate();
     display.textContent = res;
-    values.left = res;
-    values.right = "";
-    values.operator = btn.textContent;
+    state.left = res;
+    state.right = null;
+    state.operator = btn.textContent;
+    state.mode = "right";
   }
 };
 
 const equalHandler = () => {
-  const res = calculate();
+  const res = state.calculate();
   display.textContent = res;
-  values.left = res;
-  values.right = "";
-  releaseBtns();
+  state.equal(res);
+  ui.releaseBtns();
 };
 
 document
   .querySelector(".buttons-container")
   .addEventListener("click", (event) => {
     const btn = event.target;
-    const state = getState(values);
     if (!btn || btn.tagName !== "BUTTON") return;
     if (btn.classList.contains("number")) {
       numberHandler(btn);
@@ -157,7 +149,7 @@ document
     } else if (btn.classList.contains("equal")) {
       equalHandler();
     }
-    console.log("btn", btn.textContent, "state", state, "values", values);
+    console.log("btn", btn.textContent, "state", state);
   });
 
 // buttons.forEach((button) =>
