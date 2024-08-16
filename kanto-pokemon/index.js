@@ -1,48 +1,31 @@
 console.log("You have connected...");
-function fetchKantoPokemon() {
-  fetch("https://pokeapi.co/api/v2/pokemon?limit=151")
-    .then((response) => response.json())
-    .then(function (allpokemon) {
-      console.log(allpokemon.results);
-      // 순서대로 보여주려면 어떻게 할까?
-      allpokemon.results.forEach(function (pokemon) {
-        fetchPokemonData(pokemon);
+
+const api = {
+  getPokemons() {
+    fetch("https://pokeapi.co/api/v2/pokemon?limit=151")
+      .then((response) => response.json())
+      .then(function (allpokemon) {
+        console.log(allpokemon.results);
+        // 순서대로 보여주려면 어떻게 할까?
+        allpokemon.results.forEach(function (pokemon) {
+          let url = pokemon.url; // https://pokeapi.co/api/v2/pokemon/1/"
+          fetch(url)
+            .then((response) => response.json())
+            .then(function (pokeData) {
+              renderPokemon(pokeData);
+            });
+        });
       });
-    });
-}
-fetchKantoPokemon();
-
-document.addEventListener("DOMContentLoaded", () => {
-  let generateBtn = document.querySelector("#generate-pokemon");
-  generateBtn.addEventListener("click", renderEverything);
-
-  getDeleteBtn().addEventListener("click", deleteEverything);
-});
+  },
+};
 
 function renderEverything() {
   let allPokemonContainer = document.querySelector("#poke-container");
   allPokemonContainer.innerText = "";
-  // fetchKantoPokemon();
   fetchKantoPokemonSorted();
 
-  getDeleteBtn().style.display = "block";
+  document.querySelector("#delete-btn").style.display = "block";
 }
-
-function getDeleteBtn() {
-  return document.querySelector("#delete-btn");
-}
-
-// function fetchKantoPokemon() {
-//   fetch("https://pokeapi.co/api/v2/pokemon?limit=151")
-//     .then((response) => response.json())
-//     .then(function (allpokemon) {
-//       console.log(allpokemon.results);
-//       // 순서대로 보여주려면 어떻게 할까?
-//       allpokemon.results.forEach(function (pokemon) {
-//         fetchPokemonData(pokemon);
-//       });
-//     });
-// }
 
 function fetchKantoPokemonSorted() {
   fetch("https://pokeapi.co/api/v2/pokemon?limit=151")
@@ -57,16 +40,6 @@ function fetchKantoPokemonSorted() {
           renderPokemon(pokemon);
         });
       });
-    });
-}
-
-function fetchPokemonData(pokemon) {
-  let url = pokemon.url; // <--- this is saving the pokemon url to a variable to use in the fetch.
-  //Example: https://pokeapi.co/api/v2/pokemon/1/"
-  fetch(url)
-    .then((response) => response.json())
-    .then(function (pokeData) {
-      renderPokemon(pokeData);
     });
 }
 
@@ -114,12 +87,13 @@ function deleteEverything(event) {
   event.target.style = "none";
   let allPokemonContainer = document.querySelector("#poke-container");
   allPokemonContainer.innerText = "";
-
-  let generateBtn = document.createElement("button");
-  generateBtn.innerText = "Generate Pokemon";
-  generateBtn.id = "generate-pokemon";
-  generateBtn.classList.add("ui", "secondary", "button");
-  generateBtn.addEventListener("click", renderEverything);
-
-  allPokemonContainer.append(generateBtn);
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  let generateBtn = document.querySelector("#generate-pokemon");
+  generateBtn.addEventListener("click", renderEverything);
+  document
+    .querySelector("#delete-btn")
+    .addEventListener("click", deleteEverything);
+  api.getPokemons();
+});
