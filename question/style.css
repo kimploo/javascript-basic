@@ -1,0 +1,83 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+} 
+/* 스타일초기화
+스타일 초기화에도 다양한 방법이 있다. 
+전체선택자
+*를 사용해 마진과 패딩에 0을 주고 보더박스 설정을 해준다.
+*/
+
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; 
+    
+}
+    
+
+.calculator-mainbox{
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border: 2px solid green;
+    background-color: #adb5bd;
+ }
+        /* 화면상의 가운데정렬을 하면 마진값은 필요없을 것 */
+
+.display{
+    width: 600px;
+    height: 100px;
+    padding: 30px;
+    border: 2px solid white;
+    margin-bottom: 10px;
+    text-align: right; /* 텍스트를 오른쪽 정렬 */
+    font-size: 2em; /* 글자 크기 */
+    background-color: white;
+}
+    
+   
+
+.buttons{
+    display: flex;
+    flex-wrap: wrap; /* 버튼이 줄 바꿈 할 수 있도록 설정 */
+    width: 600px; /* 버튼 영역의 너비 설정 */
+    height: 600px;
+    padding: 5px;
+    border: 2px solid #adb5bd;
+    margin-top: 10px;
+    gap: 5px;
+            
+}
+    /* 마진값으로 테두리의 거리를 띄워주기보다는
+    mainbox에서 패딩값을 조절 */
+
+.button {
+    flex: 1 0 20%; 
+    margin: 5px; 
+    padding: 20px; 
+    border: 2px solid #adb5bd; 
+    background-color: #adb5bd; 
+    font-size: 1.5em; 
+    }    
+
+.zero {
+    flex-basis: 46%; 
+    /*
+    0 버튼의 크기 조정 다른 버튼 사이즈의 두배가 되려면
+    하나의 버튼당 각각 20%, 거기에 패딩과 갭 사이즈를 고려하면 
+    46%가 적절한 사이즈. 
+    허나 그러면 . 버튼과 = 버튼의 사이즈 조겅도 필요
+    결국 나머지 두 버튼은 각각 넘버, 오퍼레이터 클래스에 포함되니 오케이! 
+    */
+}
+
+.button:hover {
+    background-color: #ced4da; 
+}
+    
+.button:active {
+    background-color: #f8f9fa; 
+}

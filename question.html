@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <p class="p num" id="pA">AAA</p>
+    <p class="p num" id="pB">BBB</p>
+
+    <script>
+      const p1 = document.getElementsByClassName("p");
+      const p2 = document.getElementById("pA");
+      const p3 = document.querySelector("p");
+
+      //innerText 출력
+      console.log(p1.innerText); //undefined
+      console.log(p2.innerText); //111
+      console.log(p3.innerText); //111
+
+      //getElementsByClassName과 querySelector의 차이
+      const pTag1 = document.getElementsByClassName("p");
+      const pTag2 = document.querySelectorAll("p");
+      console.log(pTag1); //HTMLCollection(2)[p#pA.p.num, p#pB.p.num, pA: p#pA.p.num, pB: p#pB.p.num]
+      console.log(pTag2); //NodeList(2)[p#pA.p.num, p#pB.p.num]
+      console.log(pTag1[1]);
+      console.log(pTag2[1]);
+
+      const num1 = document.getElementsByClassName("num");
+      const num2 = document.querySelectorAll("num");
+      console.log(num1); //HTMLCollection(2)[p#pA.p.num, p#pB.p.num, pA: p#pA.p.num, pB: p#pB.p.num]
+      console.log(num2); //NodeList[]
+      console.log(num1[1]);
+      console.log(num2[1]); //undefined
+    </script>
+  </body>
+</html>
