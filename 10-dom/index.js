@@ -37,6 +37,7 @@ function createMsg(text, container) {
 function mainScript() {
   const form = document.querySelector("form.form-container");
   const container = document.querySelector("div.container");
+  debugger;
   createMsg("Hello", container);
   createMsg("World", container);
   createMsg("JavaScript", container);

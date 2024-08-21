@@ -24,8 +24,10 @@ function displayDogs(item) {
 
 window.addEventListener("load", function () {
   // 강아지 사진 뿌리기
+  // 강아지 사진 뿌리기
   request1.open("GET", apiRandomDogs);
   request1.addEventListener("load", function () {
+    console.log("요청 받기 전에");
     const response = JSON.parse(request1.response);
     response.message.forEach(function (item) {
       currentDogs.push(item);
@@ -33,6 +35,7 @@ window.addEventListener("load", function () {
     });
   });
   request1.send();
+  console.log("여기가 갑자기 실행됨");
 
   // 견종 텍스트 뿌리기
   request2.open("GET", apiAllBreeds);
